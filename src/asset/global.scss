@@ -1,0 +1,52 @@
+@font-face {
+  font-family: iran-sans;
+  src: url('./font//Iranian\ Sans.ttf');
+
+}
+
+@font-face {
+  font-family: yekan;
+  src: url('./font//Yekan.ttf');
+}
+
+* {
+  font-family: yekan;
+}
+
+// tr:nth-child(even) {
+//   background-color: #ccc;
+// }
+
+.easy-edit-inline-wrapper {
+  width: 80px;
+  // display: inline-block;
+}
+
+.easy-edit-wrapper {
+  color: #4242d7;
+  text-decoration: underline;
+}
+
+.MuiTableRow-root{
+  // &:nth-child(even) {
+  //   background-color: rgb(245, 245, 245) !important;
+  // }
+
+  &:hover {
+    background-color: rgb(233, 233, 233) !important;
+  }
+}
+.date-input-with-dialog-empty{
+  display: none;
+}
+.date-input-with-dialog-calendar{
+  // right:1rem;
+  top: 1.3rem;
+  width: 30px;
+}
+.JDatePicker{
+//  position: absolute;  
+//  left: 50%;
+//  top: 50%;
+ transform:  translate(-50%,0%);
+}
