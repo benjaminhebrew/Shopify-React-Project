@@ -1,182 +1,168 @@
+import React, { Component } from 'react'
+import { Button } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 
+import { deleteQuantityChangeLog } from '../../../../../redux/actions';
 import { editProducts, getData } from '../../../../../api/API';
 import { BasicTable } from '../Table/Table.component'
 import { Paginate } from '../../../../../components/index.components'
 import { TableContainer } from '../../../../../components/TableContainer.component'
-import React, { Component } from 'react'
-import { Button } from '@material-ui/core';
-import { connect } from 'react-redux';
-import { deleteQuantityChangeLog } from '../../../../../redux/actions';
-import { toast } from 'react-toastify';
 
 class TableGrid extends Component {
-  state = {
-    data: [{}],
-    initialId: 0,
-    numberOfPages: 0,
-    clickedPage: 1,
-    isChanged: false
-  }
+	state = {
+		data: [{}],
+		initialId: 0,
+		numberOfPages: 0,
+		clickedPage: 1,
+		isChanged: false
+	}
 
+	getProductsData = async (clickedPage) => {
+		const field = 'groceries'
+		const rowNumber = 6
+		try {
+			const { data = [{}], headers } = await getData(field, clickedPage, rowNumber, `&_sort=id&_order=desc`)
+			const totalCount = headers ? headers['x-total-count'] : 1
+			const numberOfPages = Math.ceil(totalCount / rowNumber)
+			await this.setState({ data, numberOfPages })
+		}
+		catch (error) {
+			console.log('get data failed with error ==> ', error.message)
+		}
+	}
 
-  getProductsData = async (clickedPage) => {
-    const field = 'groceries'
-    const rowNumber = 6
-    try {
-      const { data = [{}], headers } = await getData(field, clickedPage, rowNumber, `&_sort=id&_order=desc`)
-      const totalCount = headers ? headers['x-total-count'] : 1
-      const numberOfPages = Math.ceil(totalCount / rowNumber)
-      await this.setState({ data, numberOfPages })
-    }
-    catch (error) {
-      console.log('get data failed with error ==> ', error.message)
-    }
-  }
+	async componentDidMount() {
+		const defaultPage = 1
+		await this.getProductsData(defaultPage)
+	}
 
+	async shouldComponentUpdate(nextProps, nextState) {
+		if (this.state.clickedPage !== nextState.clickedPage) {
+			await this.getProductsData(nextState.clickedPage)
+			return true
+		}
+		else return false
+	}
 
-  async componentDidMount() {
-    const defaultPage = 1
-    await this.getProductsData(defaultPage)
-  }
+	handleClickedPage = async (clickedPage) => {
+		await this.setState({
+			clickedPage
+		})
+	}
 
-  async shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.clickedPage !== nextState.clickedPage) {
-      await this.getProductsData(nextState.clickedPage)
-      return true
-    }
-    else return false
-  }
+	handleAllPatchData = async () => {
 
+		// get quantity change from redux : 
+		const quantityChangeArray = this.props.quantityChange
 
-  handleClickedPage = async (clickedPage) => {
-    await this.setState({
-      clickedPage
-    })
-  }
+		try {
+			quantityChangeArray.map(async (item) => {
+				if (item) {
+					const { productGroup, productId, changedItem, newValue } = item
 
+					let data = new FormData()
+					data.append(changedItem, newValue)
 
-  handleAllPatchData = async () => {
+					await editProducts(data, productGroup, productId)
+				}
+			})
 
-    // get quantity change from redux : 
-    const quantityChangeArray = this.props.quantityChange
+			// delete all quantity change on redux : 
+			this.props.deleteAllQuantity()
 
+			this.setState({ isChanged: false })
 
-    try {
-      quantityChangeArray.map(async (item) => {
-        if (item) {
-          const { productGroup, productId, changedItem, newValue } = item
+			toast.success(<p dir='rtl'> &emsp;<strong> ✔ </strong> &ensp; Editing done successfully </p>, {
+				position: "bottom-left",
+				autoClose: 7000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
 
-          let data = new FormData()
-          data.append(changedItem, newValue)
+		}
+		catch (error) {
+			toast.error(<p>{error.message}</p>, {
+				position: "bottom-left",
+				autoClose: 7000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		}
+	}
 
-          await editProducts(data, productGroup, productId)
-        }
-      })
+	style = {
+		tableHeader: {
+			display: 'flex',
+			justifyContent: 'space-between',
+			flexWrap: 'wrap'
 
-      // delete all quantity change on redux : 
-      this.props.deleteAllQuantity()
+		},
+		saveButtonContainer: {
+			alignSelf: 'center',
 
-      this.setState({ isChanged: false })
+		},
+		saveButton: {
+			width: 100
+		},
+		container: {
+			display: 'flex',
+			flexDirection: 'column',
+			flex: 1,
+			justifyContent: 'space-between'
 
-      toast.success(<p dir='rtl'> &emsp;<strong> ✔ </strong> &ensp;ویرایش با موفقیت انجام شد    </p>, {
-        position: "bottom-left",
-        autoClose: 7000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+		}
+	}
 
-    }
-    catch (error) {
-      toast.error(<p>{error.message}</p>, {
-        position: "bottom-left",
-        autoClose: 7000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    }
-  }
+	render() {
+		return (
+			<div>
 
+				<TableContainer>
+					<div style={this.style.container} >
+						<div >
+							<div style={this.style.tableHeader}>
+								<h2> Manage inventory and prices</h2>
+								<div style={this.style.saveButtonContainer}>
+									{
+										this.state.isChanged ?
+											<Button style={this.style.saveButton} variant="contained" color="primary" onClick={this.handleAllPatchData} >
+												Store
+											</Button> :
+											<Button style={this.style.saveButton} variant="contained" color="primary" disabled >
+												Store
+											</Button>
+									}
+								</div>
+							</div>
+							<BasicTable rows={this.state.data} isChanged={(isChanged) => this.setState({ isChanged })} />
+						</div>
+						<div>
+							<Paginate numberOfPages={this.state.numberOfPages} clickedPage={this.handleClickedPage} field='panel' pathSection='quantity' />
+						</div>
 
+					</div>
+				</TableContainer>
 
-  style = {
-    tableHeader: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      flexWrap: 'wrap'
-
-    },
-    saveButtonContainer: {
-      alignSelf: 'center',
-
-    },
-    saveButton: {
-      width: 100
-    },
-    container: {
-      display: 'flex',
-      flexDirection: 'column',
-      flex: 1,
-      justifyContent: 'space-between'
-
-    }
-  }
-
-
-  render() {
-    return (
-      <div>
-
-        <TableContainer>
-
-          <div style={this.style.container} >
-
-            <div >
-              <div style={this.style.tableHeader}>
-                <h2 > مدیریت موجودی و قیمت ها</h2>
-                <div style={this.style.saveButtonContainer}>
-                  {
-                    this.state.isChanged ?
-                      <Button style={this.style.saveButton} variant="contained" color="primary" onClick={this.handleAllPatchData} >
-                        ذخیره
-                      </Button> :
-                      <Button style={this.style.saveButton} variant="contained" color="primary" disabled >
-                        ذخیره
-                      </Button>
-                  }
-                </div>
-              </div>
-              <BasicTable rows={this.state.data} isChanged={(isChanged) => this.setState({ isChanged })} />
-            </div>
-
-            <div>
-              <Paginate numberOfPages={this.state.numberOfPages} clickedPage={this.handleClickedPage} field='panel' pathSection='quantity' />
-            </div>
-
-          </div>
-        </TableContainer>
-
-      </div>
-    )
-  }
+			</div>
+		)
+	}
 }
 
 const mapStateToProps = (state) => ({
-  quantityChange: state.quantityChange
+	quantityChange: state.quantityChange
 })
 
-
 const mapDispatchToProps = (dispatch) => {
-  return {
-    deleteAllQuantity: () => dispatch(deleteQuantityChangeLog())
-  }
+	return {
+		deleteAllQuantity: () => dispatch(deleteQuantityChangeLog())
+	}
 }
-
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableGrid)

@@ -8,39 +8,39 @@ import NavButtons from './component/NavButtons.component';
 
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    left: 'auto',
-    right: 0
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: ''
-  },
-  toolbar: {
-    justifyContent: 'space-between',
-  }
+	root: {
+		display: 'flex',
+		left: 'auto',
+		right: 0
+	},
+	appBar: {
+		zIndex: theme.zIndex.drawer + 1,
+		backgroundColor: ''
+	},
+	toolbar: {
+		justifyContent: 'space-between',
+	}
 
 }));
 
 function StoreHeader(props) {
-  const classes = useStyles();
+	const classes = useStyles();
 
-  return (
-    <div className={classes.root} style={props.style}>
-      <CssBaseline />
-      {/* you can give  position="fixed"  */}
-      <AppBar elevation={1} className={classes.appBar}>
-        <Toolbar className={classes.toolbar} >
+	return (
+		<div className={classes.root} style={props.style}>
+			<CssBaseline />
+			{/* you can give  position="fixed"  */}
+			<AppBar elevation={1} className={classes.appBar}>
+				<Toolbar className={classes.toolbar} >
 
-          <Logo />
-          <NavButtons />
+					<Logo />
+					<NavButtons />
 
-        </Toolbar>
-      </AppBar>
-      {props.children}
-    </div>
-  );
+				</Toolbar>
+			</AppBar>
+			{props.children}
+		</div>
+	);
 }
 
 export { StoreHeader }

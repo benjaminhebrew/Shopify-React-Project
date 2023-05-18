@@ -7,111 +7,111 @@ import { AddProductsModal } from '../AddProductsModal/AddProductsModal.component
 
 
 class TableGrid extends Component {
-  state = {
-    data: [{}],
-    initialId: 0,
-    numberOfPages: 0,
-    clickedPage: 1,
-    isRerender: 'no'
-  }
+	state = {
+		data: [{}],
+		initialId: 0,
+		numberOfPages: 0,
+		clickedPage: 1,
+		isRerender: 'no'
+	}
 
 
-  getProductsData = async (clickedPage) => {
+	getProductsData = async (clickedPage) => {
 
-    const field = 'groceries'
-    const rowNumber = 6
-    try {
-      const { data = [{}], headers } = await getData(field, clickedPage, rowNumber, `&_sort=id&_order=desc`)
-      const totalCount = headers ? headers['x-total-count'] : 1
-      const numberOfPages = Math.ceil(totalCount / rowNumber)
-      await this.setState({ data, numberOfPages })
-    }
-    catch (error) {
-      console.log('get data failed with error ==> ', error.message)
-    }
-  }
-
-
-  async componentDidMount() {
-    const defaultPage = 1
-    await this.getProductsData(defaultPage)
-  }
-
-  async shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.isRerender === 'yes') {
-      console.log('rerender should be happen here ......')
-      await this.getProductsData(this.state.clickedPage)
-      await this.setState({ isRerender: 'no' })
-      return true
-    }
-    else if (this.state.clickedPage !== nextState.clickedPage) {
-      await this.getProductsData(nextState.clickedPage)
-      return true
-    }
-
-    else return false
-  }
+		const field = 'groceries'
+		const rowNumber = 6
+		try {
+			const { data = [{}], headers } = await getData(field, clickedPage, rowNumber, `&_sort=id&_order=desc`)
+			const totalCount = headers ? headers['x-total-count'] : 1
+			const numberOfPages = Math.ceil(totalCount / rowNumber)
+			await this.setState({ data, numberOfPages })
+		}
+		catch (error) {
+			console.log('get data failed with error ==> ', error.message)
+		}
+	}
 
 
-  handleClickedPage = async (clickedPage) => {
-    console.log(clickedPage)
-    await this.setState({
-      clickedPage
-    })
-  }
+	async componentDidMount() {
+		const defaultPage = 1
+		await this.getProductsData(defaultPage)
+	}
+
+	async shouldComponentUpdate(nextProps, nextState) {
+		if (nextState.isRerender === 'yes') {
+			console.log('rerender should be happen here ......')
+			await this.getProductsData(this.state.clickedPage)
+			await this.setState({ isRerender: 'no' })
+			return true
+		}
+		else if (this.state.clickedPage !== nextState.clickedPage) {
+			await this.getProductsData(nextState.clickedPage)
+			return true
+		}
+
+		else return false
+	}
 
 
-  handleRerender = async (isRerender) => {
-    await this.setState({ isRerender })
-  }
-
-  style = {
-    tableHeader: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      flexWrap: 'wrap'
-
-    },
-    saveButton: {
-      alignSelf: 'center'
-    },
-    container: {
-      display: 'flex',
-      flexDirection: 'column',
-      flex: 1,
-      justifyContent: 'space-between'
-
-    }
-  }
+	handleClickedPage = async (clickedPage) => {
+		console.log(clickedPage)
+		await this.setState({
+			clickedPage
+		})
+	}
 
 
-  render() {
-    return (
-      <div>
-        <TableContainer>
+	handleRerender = async (isRerender) => {
+		await this.setState({ isRerender })
+	}
 
-          <div style={this.style.container}  >
+	style = {
+		tableHeader: {
+			display: 'flex',
+			justifyContent: 'space-between',
+			flexWrap: 'wrap'
 
-            <div>
-              <div style={this.style.tableHeader}>
-                <h2 >مدیریت کالاها</h2>
-                <div style={this.style.saveButton}>
-                  <AddProductsModal isRerender={this.handleRerender} />
-                </div>
-              </div>
-              <BasicTable rows={this.state.data} style={{ alignSelf: 'flex-end' }} isRerender={this.handleRerender} />
-            </div>
+		},
+		saveButton: {
+			alignSelf: 'center'
+		},
+		container: {
+			display: 'flex',
+			flexDirection: 'column',
+			flex: 1,
+			justifyContent: 'space-between'
 
-            <div>
-              <Paginate numberOfPages={this.state.numberOfPages} clickedPage={this.handleClickedPage} field='panel' pathSection='products' />
-            </div>
+		}
+	}
 
-          </div>
-        </TableContainer>
 
-      </div>
-    )
-  }
+	render() {
+		return (
+			<div>
+				<TableContainer>
+
+					<div style={this.style.container}  >
+
+						<div>
+							<div style={this.style.tableHeader}>
+								<h2>Management of goods</h2>
+								<div style={this.style.saveButton}>
+									<AddProductsModal isRerender={this.handleRerender} />
+								</div>
+							</div>
+							<BasicTable rows={this.state.data} style={{ alignSelf: 'flex-end' }} isRerender={this.handleRerender} />
+						</div>
+
+						<div>
+							<Paginate numberOfPages={this.state.numberOfPages} clickedPage={this.handleClickedPage} field='panel' pathSection='products' />
+						</div>
+
+					</div>
+				</TableContainer>
+
+			</div>
+		)
+	}
 }
 
 export default TableGrid

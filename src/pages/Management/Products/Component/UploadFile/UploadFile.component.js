@@ -26,7 +26,7 @@ class UploadFile extends Component {
         <label className={style.input_file_label}>
           <span className={style.file_name} >{this.state.fileName}</span>
           <input id='input' onChange={this.handleChange} className={style.input_file} type="file" />
-          <i className={style.upload_button}> انتخاب تصویر </i>
+          <i className={style.upload_button}> Select image </i>
         </label>
       </section>
     )

@@ -57,15 +57,15 @@
 
 						<div class="card-header">
 							<h3>اطلاعات کارت</h3>
-							<span id="remaining-time">زمان باقی مانده :<b>10:00</b></span>
+							<span id="remaining-time">remaining-time:<b>10:00</b></span>
 
 						</div>
 						<div class="card-body">
 							<form class="card-info">
 								<div class="form-group row">
 									<div class="col-sm-4">
-										<label for="cardnumber" class="col-form-label">شماره کارت</label>
-										<small>شماره کارت 16 رقمی درج شده روی کارت را وارد نمایید</small>
+										<label for="cardnumber" class="col-form-label">card number</label>
+										<small>Enter the 16-digit card number written on the card</small>
 									</div>
 
 									<div class="col-md-6 col-sm-8 col-12 mobile-justify">
@@ -87,8 +87,8 @@
 
 								<div class="form-group row">
 									<div class="col-sm-4">
-										<label for="inputcvv2" class="col-form-label">شماره شناسایی دوم (CVV2)</label>
-										<small>شماره 3 یا 4 رقمی درج شده روی کارت را وارد نمایید</small>
+										<label for="inputcvv2" class="col-form-label">Second Identification Number(CVV2)</label>
+										<small>Enter the 3 or 4 digit number written on the card</small>
 									</div>
 									<div class="col-md-6 col-sm-6 col-10  mobile-justify keypad-parent">
 										<input type="password" class="form-control" id="inputcvv2" maxlength="4" onfocus="hideOthersKeypad(this);hideCardSuggestionList();removeInvalidClassFromInput('inputcvv2');
@@ -104,20 +104,20 @@
 
 								<div class="form-group row">
 									<div class="col-sm-4">
-										<label for="inputmonth" class="col-form-label">تاریخ انقضای کارت</label>
-										<small>تاریخ انقضای کارت را وارد کنید </small>
+										<label for="inputmonth" class="col-form-label">Card Expiry Date</label>
+										<small>Enter the expiration date of the card </small>
 									</div>
 
 									<div class="col-2 d-lg-none d-sm-none"></div>
 
 									<div class="col-md-2 col-sm-3 col-4">
-										<input type="tel" class="form-control" id="inputmonth" maxlength="2" placeholder="ماه"
+										<input type="tel" class="form-control" id="inputmonth" maxlength="2" placeholder="month"
 											autocomplete="off" onkeydown="preventInvalidKeys(event);"
 											onfocus="hideKeypad();removeInvalidClassFromInput('inputmonth')"
 											onkeyup="focusNextField(this,'inputyear',event);">
 									</div>
 									<div class="col-md-2 col-sm-3 col-4">
-										<input type="tel" class="form-control" id="inputyear" maxlength="2" placeholder="سال"
+										<input type="tel" class="form-control" id="inputyear" maxlength="2" placeholder="year"
 											autocomplete="off" onfocus="removeInvalidClassFromInput('inputmonth')"
 											onkeydown="preventInvalidKeys(event);" onkeyup="focusNextField(this,'inputcapcha',event)">
 									</div>
@@ -125,8 +125,8 @@
 
 								<div class="form-group row">
 									<div class="col-sm-4">
-										<label for="inputcapcha" class="col-form-label">کد امنیتی</label>
-										<small>لطفا کد امنیتی داخل کادر را وارد نمایید</small>
+										<label for="inputcapcha" class="col-form-label">Security code</label>
+										<small>Please enter the security code inside the box</small>
 									</div>
 									<div class="col-sm-3 col-8 mobile-justify">
 										<input type="tel" class="form-control" id="inputcapcha" maxlength="5" autocomplete="off"
@@ -137,14 +137,14 @@
 										<!-- <img id="captcha-img" src="./img/ipg-capcha-refresh.svg"> -->
 									</div>
 									<div class="col-sm-1 col-4">
-										<button type="button" id="captcha-button" class="form-btn capcha" title="نمايش کد جديد"
+										<button type="button" id="captcha-button" class="form-btn capcha" title="Show new code"
 											onclick="refreshCaptcha()"></button>
 									</div>
 								</div>
 								<div class="form-group row" onblur="hideKeypad()">
 									<div class="col-sm-4">
-										<label for="inputpin" class="col-form-label">رمز اینترنتی کارت</label>
-										<small>رمز اینترنتی را وارد نمایید</small>
+										<label for="inputpin" class="col-form-label">Internet password of the card</label>
+										<small>Enter the internet password</small>
 									</div>
 
 									<div class="col-md-6 col-sm-6 col-10 mobile-justify keypad-parent">
@@ -155,7 +155,7 @@
 												onkeyup="focusNextField(this,'inputpayerid|payButton',event);">
 											<button class="sendpin" type="button" id="otp-button" data-toggle="dropdown"
 												onclick="validateAndRequestOTP()" aria-haspopup="true" aria-expanded="false"
-												tabindex="-1">دریافت رمز پویا
+												tabindex="-1">Get dynamic password
 											</button>
 										</div>
 									</div>
@@ -167,8 +167,8 @@
 
 								<div class="form-group row">
 									<div class="col-sm-4">
-										<label for="inputemail" class="col-form-label">ایمیل</label>
-										<small>لطفا ایمیل معتبر وارد کنید (اختیاری)</small>
+										<label for="inputemail" class="col-form-label">Email</label>
+										<small>Please enter a valid email (optional)</small>
 									</div>
 									<div class="col-md-6 col-sm-8 col-12 mobile-justify">
 										<input type="email" class="form-control" id="inputemail"
@@ -183,7 +183,7 @@
 										<div class="form-check">
 											<input class="form-check-input" type="checkbox" id="savePanCheckbox" checked>
 											<label class="form-check-label" for="savePanCheckbox">
-												ذخیره کارت برای استفاده‌های بعدی
+												Save the card for later use
 											</label>
 										</div>
 									</div>
@@ -192,16 +192,16 @@
 								<div class="form-group row">
 									<div class="col-sm-4"></div>
 									<div class="col-md-6 col-sm-8 col-12 mobile-justify btn-submit-form">
-										<span class="card-errorbox shaparak_shit_message">لطفا اطلاعات مورد نیاز را به درستی وارد
-											کنید</span>
+										<span class="card-errorbox shaparak_shit_message">Please enter the required information correctly
+											Do</span>
 									</div>
 								</div>
 								<div class="form-group row">
 									<div class="col-sm-4"></div>
 									<div class="col-md-6 col-sm-8 col-12 mobile-justify btn-submit-form">
 										<button type="button" class="btn btn-perches" id="payButton"
-											onclick="success()">پرداخت</button>
-										<button type="button" class="btn btn-decline" onclick="cancelPay()">انصراف</button>
+											onclick="success()">Payment</button>
+										<button type="button" class="btn btn-decline" onclick="cancelPay()">Cancel</button>
 									</div>
 								</div>
 							</form>
@@ -212,7 +212,7 @@
 				<div class="col-lg-4 col-md-12 col-sm-12 order-lg-2 order--1">
 					<div class="beh-card merchantdetail">
 						<div class="card-header">
-							<h3>اطلاعات پذیرنده</h3>
+							<h3>Acceptor information</h3>
 						</div>
 						<div class="card-body">
 
@@ -224,26 +224,19 @@
 								</div>
 
 								<ul class="col-lg-12 col-sm-8 merchant-detail">
-									<li>نام پذیرنده : <b>فروشگاه پارسیان</b></li>
-									<li>شماره سفارش: <b id='order-number' >2370746</b></li>
-
-
-									<li> نام خریدار: <b id='params-name'>5827069</b></li>
-									<li>آدرس وب سایت: <b class="merchantwebsite">
-
-
-
+									<li>Acceptor name: <b>Fourgah Parsian</b></li>
+									<li>Order number: <b id='order-number' >2370746</b></li>
+									<li> Buyer Name: <b id='params-name'>5827069</b></li>
+									<li>Website address:
+										<b class="merchantwebsite">
 											<span class="merchant_a" title="http://www.digikala.com"> http://www.parsian.com </span>
-										</b></li>
-
-
-
+										</b>
+									</li>
 								</ul>
-
 							</div>
 
 							<ul class="merchant-detail price">
-								<li>مبلغ قابل پرداخت :<b class="price-number">2,700,000 &nbsp; ریال</b></li>
+								<li>Payable amount:<b class="price-number">2,700,000 &nbsp; Rial</b></li>
 							</ul>
 						</div>
 
@@ -254,8 +247,6 @@
 		</section>
 
 		<div class="keypad-container">
-
-
 			<h4>
 				<div class="input-group input-group-sm"> <span class="form-control border_none " aria-describedby="closeBtn">
 						صفحه کلید امن</span>
@@ -304,10 +295,10 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<p>مشتری گرامی، در شرایط ذیل نیازی به فشردن دکمه درخواست رمز پویا نمی باشد:<br />اگر از روش هایی نظیر برنامک
-							های رمز ساز استفاده می نمایید رمز خود را در قسمت رمز دوم وارد فرمایید. در صورتی که تاکنون نسبت به پویا
-							سازی رمز دوم کارت خود اقدام ننموده اید، میتوانید حداکثر تا تاریخ 98/11/05 از رمز ایستای خود استفاده
-							فرمایید.</p>
+						<p>Dear customer, there is no need to press the dynamic password request button under the following conditions:
+							enter your password in the second password field. If so far relative to dynamic
+							You have not created a second password for your card, you can use your static password until 11/05/30 at the latest.
+							Tell me.</p>
 					</div>
 					<div class="modal-footer">
 						<button type="button" id="dynamic-pin-dialog-button" class="btn btn-primary"
@@ -333,8 +324,8 @@
 		<div class="container">
 			<div class="footerarc"></div>
 			<div class="footerarc content">
-				<span class="call">شماره تماس: 27312733-021 </span><br>
-				<span>شرکت به پرداخت ملت ارايه دهنده خدمات نوین پرداخت الکترونيک</span>
+				<span class="call">Call number: 15085061026</span><br>
+				<span>Mallat Payment Company provides new electronic payment services</span>
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-12">
