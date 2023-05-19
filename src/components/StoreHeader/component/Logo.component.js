@@ -59,7 +59,7 @@ function Logo(props) {
         <Typography className={classes.title} noWrap>
           <img src={logoText} style={style.logoText} alt='logoText' />
         </Typography>
-        {/* <h1 style={style.logoText} >فروشگاه فلان</h1> */}
+        {/* <h1 style={style.logoText} >Flan shop</h1> */}
         {/* <Brightness6Icon /> */}
         {/* <img style={style.logo} src={persiaIcon} /> */}
       </div>

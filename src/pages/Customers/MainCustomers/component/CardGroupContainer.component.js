@@ -5,7 +5,6 @@ import { MediaCard } from '../../../../components/index.components';
 import { getData } from '../../../../api/API';
 import { Spinner } from '../../../../components/index.components'
 import { Divider } from '@material-ui/core';
-import { wordToPersian } from '../../../../utils/convertNameToPersian';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,7 +67,7 @@ function CardGroupContainer(props) {
         <div className={classes.root}>
 
           <Grid container spacing={3}  >
-            <h2 className={classes.title}>{wordToPersian(state.data[0].group)} </h2>
+            <h2 className={classes.title}>{state.data[0].group} </h2>
           </Grid>
 
           <Grid container spacing={3} justify='space-evenly' >

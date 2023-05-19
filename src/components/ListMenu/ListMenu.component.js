@@ -20,245 +20,221 @@ import { Link } from 'react-router-dom';
 import { PlusOne } from '@material-ui/icons';
 import IconGenerator from './IconGenerator.component'
 import { getListIcons } from '../../api/API';
-import { wordToPersian } from '../../utils/convertNameToPersian'
-
-
 
 const theme = createMuiTheme({
-  direction: 'rtl', // Both here and <body dir="rtl">
-  fontFamily: Yekan
+	direction: 'rtl', // Both here and <body dir="rtl">
+	fontFamily: Yekan
 });
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    left: 'auto',
-    right: 0,
+	root: {
+		display: 'flex',
+		left: 'auto',
+		right: 0,
 
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    // backgroundColor: ''
-  },
-  drawer: {
-    width: drawerWidth,
-    // flexShrink: 0,
-    overflow:'auto',
+	},
+	appBar: {
+		zIndex: theme.zIndex.drawer + 1,
+		// backgroundColor: ''
+	},
+	drawer: {
+		width: drawerWidth,
+		// flexShrink: 0,
+		overflow: 'auto',
 
 
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
-      width: 0,
-      // margin: '0 20px',
-      // padding: 5,
-      // marginTop: 2
-    },
+		[theme.breakpoints.down('sm')]: {
+			display: 'none',
+			width: 0,
+			// margin: '0 20px',
+			// padding: 5,
+			// marginTop: 2
+		},
 
-  },
-  // drawerPaper: {
-  //   width: drawerWidth,
-  //   // overflow: 'auto',
-  //   // height: '100%',
-  //   overflow:'none',
-  //   height:1000
+	},
+	// drawerPaper: {
+	//   width: drawerWidth,
+	//   // overflow: 'auto',
+	//   // height: '100%',
+	//   overflow:'none',
+	//   height:1000
 
-  // },
-  drawerContainer: {
+	// },
+	drawerContainer: {
 
-    // overflow: 'hidden',
+		// overflow: 'hidden',
 
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
-  subHeader: {
-    color: '#222',
-    fontWeight: 600,
-    margin: 0,
-    fontSize: 14,
-    // paddingLeft:180
-    marginLeft:100
-    // padding:0
-  },
-  inline: {
-    margin: 0,
-    padding: 0
-  },
-  text: {
-    margin: 0,
-    padding: 0,
-    color: '#666'
-  },
-  list: {
-    margin: 0,
-    padding: 0
-  },
-  listItem: {
-    padding: '0 15px'
-  },
-  link: {
-    textDecoration: 'none',
-    color: 'black',
-  }
+	},
+	content: {
+		flexGrow: 1,
+		padding: theme.spacing(3),
+	},
+	subHeader: {
+		color: '#222',
+		fontWeight: 600,
+		margin: 0,
+		fontSize: 14,
+		// paddingLeft:180
+		marginLeft: 100
+		// padding:0
+	},
+	inline: {
+		margin: 0,
+		padding: 0
+	},
+	text: {
+		margin: 0,
+		padding: 0,
+		color: '#666'
+	},
+	list: {
+		margin: 0,
+		padding: 0
+	},
+	listItem: {
+		padding: '0 15px'
+	},
+	link: {
+		textDecoration: 'none',
+		color: 'black',
+	}
 
 }));
 
 function ListMenu(props) {
-  const classes = useStyles();
+	const classes = useStyles();
+	const [iconList, setIconList] = useState()
 
-  const [iconList, setIconList] = useState()
+	useEffect(async () => {
+		const { data } = await getListIcons()
 
-  useEffect(async () => {
-    const { data } = await getListIcons()
+		setIconList(data)
 
-    setIconList(data)
+	}, [])
+	return (
+		<div className={classes.root} >
+			<ThemeProvider theme={theme}>
+				<div dir='rtl'>
+					<CssBaseline />
+					<StylesProvider jss={jss}>
+						<Drawer
+							// anchor="right"
+							className={classes.drawer}
+							variant="permanent"
+						>
+							<Toolbar />
+							<div className={classes.drawerContainer}>
+								{
+									iconList && iconList.map(item => {
+										return (
+											<List className={classes.list}>
+												<ListSubheader color={'secondary'} className={classes.subHeader}>
 
-  }, [])
-  return (
+													<IconGenerator fa_iconName={item.icon} />
+													<span style={{ backgroundColor: 'white' }}>  {item.group} </span>
 
-    <div className={classes.root} >
+												</ListSubheader>
 
-      <ThemeProvider theme={theme}>
-        <div dir='rtl'>
+												{item.subgroup.map((text, index) => (
 
-          <CssBaseline />
+													<Link to={`/home/${item.group}/${text}/1`} className={classes.link} >
+														<ListItem className={classes.listItem} alignItems={'start'} button key={text}>
+															<ListItemText className={classes.text} disableTypography={true}>
+																{text}
+															</ListItemText>
+														</ListItem>
+													</Link>
 
-          <StylesProvider jss={jss}>
+												))}
+											</List>
+										)
+									})
+								}
 
-
-            <Drawer
-              // anchor="right"
-              className={classes.drawer}
-              variant="permanent"
-            >
-              <Toolbar />
-              <div className={classes.drawerContainer}>
-
-
-                {
-
-                  iconList && iconList.map(item => {
-                    return (
-                      <List className={classes.list}>
-                        <ListSubheader color={'secondary'} className={classes.subHeader}>
-
-                          <IconGenerator fa_iconName={item.icon} />
-                          <span style={{ backgroundColor: 'white' }}>  {wordToPersian(item.group)} </span>
-
-                        </ListSubheader>
-
-
-                        {item.subgroup.map((text, index) => (
-
-                          <Link to={`/home/${item.group}/${text}/1`} className={classes.link} >
-                            <ListItem className={classes.listItem} alignItems={'start'}  button key={text}>
-                              <ListItemText className={classes.text} disableTypography={true}>
-                                {wordToPersian(text)}
-                              </ListItemText>
-                            </ListItem>
-                          </Link>
-
-                        ))}
-                      </List>
-                    )
-                  })
-                }
-
-
-
-
-                {/* <List className={classes.list} disableTypography={true}>
+								{/* <List className={classes.list} disableTypography={true}>
                   <ListSubheader className={classes.subHeader} >
 
-                    <span style={{ backgroundColor: 'white' }}>  کالاهای اساسی و خوار و بار </span>
+                    <span style={{ backgroundColor: 'white'}}> Basic goods and groceries </span>
 
                   </ListSubheader>
 
                   <Link className={classes.link} to='/home/groceries/bread/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button  >
                       <ListItemText disableTypography={true} className={classes.text}  >
-                        نان
-                      </ListItemText>
+                     Bread
+                       </ListItemText>
                     </ListItem>
                   </Link>
 
                   <Link className={classes.link} to='/home/groceries/rice/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                        برنج
-                      </ListItemText>
+                  Rice
+                       </ListItemText>
                     </ListItem>
                   </Link>
 
                   <Link className={classes.link} to='/home/groceries/oil/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                        روغن
-                      </ListItemText>
+                     Oil
+                       </ListItemText>
                     </ListItem>
                   </Link>
 
                   <Link className={classes.link} to='/home/groceries/sugar/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                        قند و نبات
-                      </ListItemText>
+                    Sugar and candy
+                       </ListItemText>
                     </ListItem>
                   </Link>
                 </List>
-
-
-
 
                 <List className={classes.list} disableTypography={true}>
                   <ListSubheader className={classes.subHeader} >
 
-                    <span style={{ backgroundColor: 'white' }}> لبنیات </span>
+                    <span style={{ backgroundColor: 'white'}}> Dairy </span>
 
                   </ListSubheader>
 
                   <Link className={classes.link} to='/home/groceries/bread/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button  >
                       <ListItemText disableTypography={true} className={classes.text}  >
-                        شیر
-                      </ListItemText>
+                  Lion
+                       </ListItemText>
                     </ListItem>
                   </Link>
 
                   <Link className={classes.link} to='/home/groceries/rice/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                        کره حیوانی و گیاهی
-                      </ListItemText>
+                       Animal and vegetable butter
+                       </ListItemText>
                     </ListItem>
                   </Link>
 
                   <Link className={classes.link} to='/home/groceries/oil/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                        ماست
-                      </ListItemText>
+                     yogurt
+                       </ListItemText>
                     </ListItem>
                   </Link>
 
                   <Link className={classes.link} to='/home/groceries/sugar/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                        دوغ
-                      </ListItemText>
+                       Doug
+                       </ListItemText>
                     </ListItem>
                   </Link>
                 </List>
-
-
-
 
                 <List className={classes.list} disableTypography={true}>
                   <ListSubheader className={classes.subHeader} >
@@ -270,23 +246,23 @@ function ListMenu(props) {
                   <Link className={classes.link} to='/home/groceries/bread/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button  >
                       <ListItemText disableTypography={true} className={classes.text}  >
-                        گوشت گاو و گوساله
-                      </ListItemText>
+                       Beef and veal
+                       </ListItemText>
                     </ListItem>
                   </Link>
 
                   <Link className={classes.link} to='/home/groceries/rice/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                        گوشت مرغ
-                      </ListItemText>
+                      Chicken
+                       </ListItemText>
                     </ListItem>
                   </Link>
 
                   <Link className={classes.link} to='/home/groceries/oil/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                        تخم مرغ
+                     egg
                       </ListItemText>
                     </ListItem>
                   </Link>
@@ -294,18 +270,11 @@ function ListMenu(props) {
                   <Link className={classes.link} to='/home/groceries/sugar/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                        ماهی، میگو و خاویار
+                      Fish, shrimp and caviar
                       </ListItemText>
                     </ListItem>
                   </Link>
                 </List>
-
-
-
-
-
-         
-
 
                 <List className={classes.list} disableTypography={true}>
                   <ListSubheader className={classes.subHeader} >
@@ -317,7 +286,7 @@ function ListMenu(props) {
                   <Link className={classes.link} to='/home/groceries/bread/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button  >
                       <ListItemText disableTypography={true} className={classes.text}  >
-                      قهوه
+                   Coffee
                       </ListItemText>
                     </ListItem>
                   </Link>
@@ -325,7 +294,7 @@ function ListMenu(props) {
                   <Link className={classes.link} to='/home/groceries/rice/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                      نسکافه و هات چاکلت
+                 Nescafe and hot chocolate
                       </ListItemText>
                     </ListItem>
                   </Link>
@@ -333,7 +302,7 @@ function ListMenu(props) {
                   <Link className={classes.link} to='/home/groceries/oil/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                      چای
+                 Tea
                       </ListItemText>
                     </ListItem>
                   </Link>
@@ -341,99 +310,77 @@ function ListMenu(props) {
                   <Link className={classes.link} to='/home/groceries/sugar/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                      شربت و آبمیوه
+                  Syrup and juice
                       </ListItemText>
                     </ListItem>
                   </Link>
                 </List>
 
-
-
-
-
-
-
-
                 <List className={classes.list} disableTypography={true}>
                   <ListSubheader className={classes.subHeader} >
 
-                    <span style={{ backgroundColor: 'white' }}> نوشیدنی</span>
+                    <span style={{ backgroundColor: 'white' }}> drink</span>
 
                   </ListSubheader>
-
                   <Link className={classes.link} to='/home/groceries/bread/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button  >
                       <ListItemText disableTypography={true} className={classes.text}  >
-                      قهوه
+                  Coffee
                       </ListItemText>
                     </ListItem>
                   </Link>
-
                   <Link className={classes.link} to='/home/groceries/rice/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                      نسکافه و هات چاکلت
+                  Nescafe and hot chocolate
                       </ListItemText>
                     </ListItem>
                   </Link>
-
                   <Link className={classes.link} to='/home/groceries/oil/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                      چای
+                  Tea
                       </ListItemText>
                     </ListItem>
                   </Link>
-
                   <Link className={classes.link} to='/home/groceries/sugar/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                      شربت و آبمیوه
+               Syrup and juice
                       </ListItemText>
                     </ListItem>
                   </Link>
                 </List>
 
-
-
-
-
-
                 <List className={classes.list} disableTypography={true}>
                   <ListSubheader className={classes.subHeader} >
-
-                    <span style={{ backgroundColor: 'white' }}>  کالاهای اساسی و خوار و بار </span>
-
+                    <span style={{ backgroundColor: 'white' }}> drink</span>
                   </ListSubheader>
-
                   <Link className={classes.link} to='/home/groceries/bread/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button  >
                       <ListItemText disableTypography={true} className={classes.text}  >
-                        نان
+                  Coffee
                       </ListItemText>
                     </ListItem>
                   </Link>
-
                   <Link className={classes.link} to='/home/groceries/rice/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                        برنج
+                  Nescafe and hot chocolate
                       </ListItemText>
                     </ListItem>
                   </Link>
-
                   <Link className={classes.link} to='/home/groceries/oil/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                        روغن
+                  Tea
                       </ListItemText>
                     </ListItem>
                   </Link>
-
                   <Link className={classes.link} to='/home/groceries/sugar/1' >
                     <ListItem className={classes.listItem} alignItems={'start'} dense={'true'} button >
                       <ListItemText disableTypography={true} className={classes.text}>
-                        قند و نبات
+               Syrup and juice
                       </ListItemText>
                     </ListItem>
                   </Link>
@@ -444,22 +391,22 @@ function ListMenu(props) {
 
 
 
-              </div>
-            </Drawer>
+							</div>
+						</Drawer>
 
-          </StylesProvider>
-        </div>
-      </ThemeProvider>
+					</StylesProvider>
+				</div>
+			</ThemeProvider>
 
 
-      <main className={classes.content}>
-        <Toolbar />
+			<main className={classes.content}>
+				<Toolbar />
 
-        {props.children}
+				{props.children}
 
-      </main>
-    </div >
-  );
+			</main>
+		</div >
+	);
 }
 
 

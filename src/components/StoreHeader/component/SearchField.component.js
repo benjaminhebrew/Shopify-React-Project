@@ -57,7 +57,7 @@ export function SearchField() {
           <SearchIcon />
         </div>
         <InputBase
-          placeholder="جستجو..."
+          placeholder="Search..."
           classes={{
             root: classes.inputRoot,
             input: classes.inputInput,

@@ -18,150 +18,146 @@ import HtmlEditor from '../../../../../components/HtmlEditor/HtmlEditor.componen
 
 
 const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    borderRadius: '7px',
-    width: '450px'
-  },
-  button: {
-    cursor: 'pointer',
-    color: 'darkblue'
-  },
-  addButton: {
-    width: 100
-  },
-  title: {
-    margin: 0
-  }
+	modal: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	paper: {
+		backgroundColor: theme.palette.background.paper,
+		border: '2px solid #000',
+		boxShadow: theme.shadows[5],
+		padding: theme.spacing(2, 4, 3),
+		borderRadius: '7px',
+		width: '450px'
+	},
+	button: {
+		cursor: 'pointer',
+		color: 'darkblue'
+	},
+	addButton: {
+		width: 100
+	},
+	title: {
+		margin: 0
+	}
 
 
 }));
 
 export function AddProductsModal(props) {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [state, setState] = React.useState({ image: '', name: '', group: '', information: '', groupfa: '' })
+	const classes = useStyles();
+	const [open, setOpen] = React.useState(false);
+	const [state, setState] = React.useState({ image: '', name: '', group: '', information: '', groupfa: '' })
 
-  const handlePostData = async () => {
-    let bodyFormData = new FormData()
-    bodyFormData.append('name', state.name)
-    bodyFormData.append('information', state.information)
-    bodyFormData.append('group', state.group)
-    bodyFormData.append('subgroup', state.subgroup)
-    bodyFormData.append('image', state.image)
-    bodyFormData.append('price', state.price)
-    bodyFormData.append('supply', state.supply)
-
-
-    try {
-      const groupUrl = `/${state.group}`
-      await AXIOS.postProducts(bodyFormData, groupUrl)
-      handleClose()
-      props.isRerender('yes')
-      toast.success(<p dir='rtl'> &emsp;<strong> ✔ </strong> &ensp;افزودن کالا با موفقیت انجام شد    </p>, {
-        position: "bottom-left",
-        autoClose: 7000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    }
-    catch (error) {
-      toast.error(<p>{error.message}</p>, {
-        position: "bottom-left",
-        autoClose: 7000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-    }
-
-  }
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <div>
+	const handlePostData = async () => {
+		let bodyFormData = new FormData()
+		bodyFormData.append('name', state.name)
+		bodyFormData.append('information', state.information)
+		bodyFormData.append('group', state.group)
+		bodyFormData.append('subgroup', state.subgroup)
+		bodyFormData.append('image', state.image)
+		bodyFormData.append('price', state.price)
+		bodyFormData.append('supply', state.supply)
 
 
-      <Button className={classes.addButton} onClick={handleOpen} color='primary' variant='contained' >
-        افزودن کالا
-      </Button>
-      <Modal style={{ overflow: 'scroll' }}
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.paper}>
-            <div className={style.modalHeader}  >
-              <h3>  افزودن کالا </h3>
+		try {
+			const groupUrl = `/${state.group}`
+			await AXIOS.postProducts(bodyFormData, groupUrl)
+			handleClose()
+			props.isRerender('yes')
+			toast.success(<p dir='rtl'> &emsp;<strong> ✔ </strong> &ensp;The product has been added successfully </p>, {
+				position: "bottom-left",
+				autoClose: 7000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		}
+		catch (error) {
+			toast.error(<p>{error.message}</p>, {
+				position: "bottom-left",
+				autoClose: 7000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		}
 
-              <CancelIcon onClick={handleClose} className={style.cancelIcon} />
+	}
 
-            </div>
+	const handleOpen = () => {
+		setOpen(true);
+	};
 
-            <p className={classes.title}>تصویر کالا</p>
-            <UploadFile image={(image) => setState({ ...state, image })} />
+	const handleClose = () => {
+		setOpen(false);
+	};
 
-            <p className={classes.title}>نام کالا</p>
-            <BasicTextFields value={(value) => setState({ ...state, name: value })} />
+	return (
+		<div>
+			<Button className={classes.addButton} onClick={handleOpen} color='primary' variant='contained' >
+				Add product
+			</Button>
+			<Modal style={{ overflow: 'scroll' }}
+				aria-labelledby="transition-modal-title"
+				aria-describedby="transition-modal-description"
+				className={classes.modal}
+				open={open}
+				onClose={handleClose}
+				closeAfterTransition
+				BackdropComponent={Backdrop}
+				BackdropProps={{
+					timeout: 500,
+				}}
+			>
+				<Fade in={open}>
+					<div className={classes.paper}>
+						<div className={style.modalHeader}  >
+							<h3> Add product </h3>
+							<CancelIcon onClick={handleClose} className={style.cancelIcon} />
+						</div>
 
-            <p className={classes.title}>موجودی </p>
-            <BasicTextFields value={(value) => setState({ ...state, supply: value })} />
+						<p className={classes.title}>product image</p>
+						<UploadFile image={(image) => setState({ ...state, image })} />
 
-            <p className={classes.title}> قیمت</p>
-            <BasicTextFields value={(value) => setState({ ...state, price: value })} />
+						<p className={classes.title}>product name</p>
+						<BasicTextFields value={(value) => setState({ ...state, name: value })} />
 
-            <p className={classes.title}> دسته بندی</p>
-            <SimpleSelectGroup value={({ group, groupfa }) => setState({ ...state, group, groupfa })} />
+						<p className={classes.title}>Inventory </p>
+						<BasicTextFields value={(value) => setState({ ...state, supply: value })} />
 
-            <p className={classes.title}>گروه کالا</p>
-            <SimpleSelectSubgroup value={({ subgroup, subgroupfa }) => setState({ ...state, subgroup, subgroupfa })} />
+						<p className={classes.title}> price</p>
+						<BasicTextFields value={(value) => setState({ ...state, price: value })} />
 
-            {/* <TextArea value={(value) => setState({ ...state, information: value })} /> */}
+						<p className={classes.title}> Category</p>
+						<SimpleSelectGroup value={({ group, groupfa }) => setState({ ...state, group, groupfa })} />
 
-            <p className={classes.title}>  توضیحات </p>
-            <HtmlEditor htmlData={async (value='initial') => await setState({ ...state, information: value })} />
+						<p className={classes.title}>Product group</p>
+						<SimpleSelectSubgroup value={({ subgroup, subgroupfa }) => setState({ ...state, subgroup, subgroupfa })} />
 
-            {/* <EditorConvertToHTML onChange={(value) => setState({ ...state, information: value })} /> */}
-            <div style={{ display: 'flex', justifyContent: 'center' }} >
-              <Button onClick={handlePostData} variant="contained" color="primary" style={{ width: '100px', marginTop: '10px' }}>
-                ذخیره
-              </Button>
-            </div>
+						{/* <TextArea value={(value) => setState({ ...state, information: value })} /> */}
+
+						<p className={classes.title}>  Description </p>
+						<HtmlEditor htmlData={async (value = 'initial') => await setState({ ...state, information: value })} />
+
+						{/* <EditorConvertToHTML onChange={(value) => setState({ ...state, information: value })} /> */}
+						<div style={{ display: 'flex', justifyContent: 'center' }} >
+							<Button onClick={handlePostData} variant="contained" color="primary" style={{ width: '100px', marginTop: '10px' }}>
+								Store
+							</Button>
+						</div>
 
 
-          </div>
-        </Fade>
-      </Modal>
-    </div>
-  );
+					</div>
+				</Fade>
+			</Modal>
+		</div>
+	);
 }
 
 
@@ -170,92 +166,88 @@ export function AddProductsModal(props) {
 
 export default function BasicTextFields(props) {
 
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-        // width: '25ch',
-      },
-    },
-  }));
-  const classes = useStyles();
-  const handleChange = (event) => {
-    props.value(event.target.value)
-  }
+	const useStyles = makeStyles((theme) => ({
+		root: {
+			'& > *': {
+				margin: theme.spacing(1),
+				// width: '25ch',
+			},
+		},
+	}));
+	const classes = useStyles();
+	const handleChange = (event) => {
+		props.value(event.target.value)
+	}
 
 
-  return (
-    <form className={classes.root} noValidate autoComplete="off">
-      {/* <TextField id="standard-basic" label="Standard" />
+	return (
+		<form className={classes.root} noValidate autoComplete="off">
+			{/* <TextField id="standard-basic" label="Standard" />
       <TextField id="filled-basic" label="Filled" variant="filled" /> */}
-      <TextField onChange={handleChange} fullWidth id="outlined-basic" fullWidth variant="outlined" size='small' />
+			<TextField onChange={handleChange} fullWidth id="outlined-basic" variant="outlined" size='small' />
 
-    </form>
-  );
+		</form>
+	);
 }
 
-
-
-
-
 function SimpleSelectGroup(props) {
-  const useStyles = makeStyles((theme) => ({
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-      width: '100%'
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-  }));
+	const useStyles = makeStyles((theme) => ({
+		formControl: {
+			margin: theme.spacing(1),
+			minWidth: 120,
+			width: '100%'
+		},
+		selectEmpty: {
+			marginTop: theme.spacing(2),
+		},
+	}));
 
-  const classes = useStyles();
-  // const [value, setValue] = React.useState('');
-  // const [groupfa, setGroupfa] = React.useState('');
+	const classes = useStyles();
+	// const [value, setValue] = React.useState('');
+	// const [groupfa, setGroupfa] = React.useState('');
 
-  const handleChange = async (event, eventInfo) => {
-    // await setValue(event.target.value);
-    // await setGroupfa(eventInfo.props.children)
+	const handleChange = async (event, eventInfo) => {
+		// await setValue(event.target.value);
+		// await setGroupfa(eventInfo.props.children)
 
-    const group = event.target.value
-    const groupfa = eventInfo.props.children
+		const group = event.target.value
+		const groupfa = eventInfo.props.children
 
-    props.value({ group, groupfa })
+		props.value({ group, groupfa })
 
-  };
+	};
 
-  return (
-    <div>
+	return (
+		<div>
 
-      <FormControl size='small' variant="outlined" className={classes.formControl}>
-        {/* <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel> */}
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          onChange={handleChange}
-        >
+			<FormControl size='small' variant="outlined" className={classes.formControl}>
+				{/* <InputLabel id="demo-simple-select-outlined-label">Age</InputLabel> */}
+				<Select
+					labelId="demo-simple-select-outlined-label"
+					id="demo-simple-select-outlined"
+					onChange={handleChange}
+				>
 
-          <MenuItem value={'groceries'}>کالاهای اساسی و خوار و بار</MenuItem>
-          <MenuItem value={'dairies'}>لبنیات</MenuItem>
-          <MenuItem value={'proteins'}>محصولات پروتئینی</MenuItem>
-          <MenuItem value={'drinks'}>نوشیدنی </MenuItem>
-        </Select>
-      </FormControl>
+					<MenuItem value={'groceries'}>Basic goods and groceries</MenuItem>
+					<MenuItem value={'dairies'}>Dairies</MenuItem>
+					<MenuItem value={'proteins'}>Protein products</MenuItem>
+					<MenuItem value={'drinks'}>drinks </MenuItem>
+				</Select>
+			</FormControl>
 
-    </div>
-  );
+		</div>
+	);
 }
 
 
 function TextArea(props) {
-  const handleChange = (event) => {
-    const value = event.target.value
-    props.value(value)
-  }
+	const handleChange = (event) => {
+		const value = event.target.value
+		props.value(value)
+	}
 
-  return (
-    <textarea className={style.textArea} onChange={handleChange} />
-  )
+	return (
+		<textarea className={style.textArea} onChange={handleChange} />
+	)
 }
 

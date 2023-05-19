@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { MediaCard } from '../../components/index.components';
-import { wordToPersian } from '../../utils/convertNameToPersian';
 import { withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -69,7 +68,7 @@ function CardGrouppp(props) {
 
               <Grid container spacing={3}  >
 
-                <h2 className={classes.title}> {wordToPersian(state[0].subgroup)}</h2>
+                <h2 className={classes.title}> {state[0].subgroup}</h2>
 
               </Grid>
               <Grid container spacing={3} justify='space-evenly' >

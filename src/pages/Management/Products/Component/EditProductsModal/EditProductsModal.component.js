@@ -13,7 +13,6 @@ import Select from '@material-ui/core/Select';
 import { UploadFile } from '../UploadFile/UploadFile.component'
 import * as AXIOS from '../../../../../api/API'
 import { toast } from 'react-toastify';
-import { wordToPersian } from '../../../../../utils/convertNameToPersian';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -139,9 +138,7 @@ export function EditProductsModal(props) {
 					<div className={classes.paper}>
 						<div className={style.modalHeader}  >
 							<h3> Product editing </h3>
-
 							<CancelIcon onClick={handleClose} className={style.cancelIcon} />
-
 						</div>
 
 						<p>Image of the product</p>
@@ -161,18 +158,12 @@ export function EditProductsModal(props) {
 								Store
 							</Button>
 						</div>
-
-
 					</div>
 				</Fade>
 			</Modal>
 		</div>
 	);
 }
-
-
-
-
 
 export default function BasicTextFields(props) {
 
@@ -192,7 +183,7 @@ export default function BasicTextFields(props) {
 	return (
 		<form className={classes.root} noValidate autoComplete="off">
 
-			<TextField onChange={handleChange} fullWidth id="outlined-basic" fullWidth variant="outlined" size='small' defaultValue={props.defaultValue} />
+			<TextField onChange={handleChange} fullWidth id="outlined-basic" variant="outlined" size='small' defaultValue={props.defaultValue} />
 
 		</form>
 	);

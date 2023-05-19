@@ -14,9 +14,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
-
 export function Paginate(props) {
 
   const classes = useStyles();

@@ -19,7 +19,6 @@ import { Markup } from 'interweave';
 import { SimpleRating } from '../../../components/index.components'
 import { connect } from 'react-redux';
 import { addProductToCart, deleteCart } from '../../../redux/actions';
-import { toEnglishDigit } from '../../../utils/convertNumber';
 import { toast } from 'react-toastify';
 import ConfirmModal from './component/ConfirmModal.component'
 
@@ -112,7 +111,7 @@ function ProductDetailsss(props) {
 
   useEffect(async () => {
     await getDataWithParams()
-    const EN_digit_supply = toEnglishDigit(product.supply)
+    const EN_digit_supply = product.supply
     await setSupply(EN_digit_supply)
     console.log(EN_digit_supply)
   }, [supply])
@@ -190,7 +189,7 @@ function ProductDetailsss(props) {
                   </Typography>
 
                   <div className={classes.buttonContainer} >
-                    <InputNumber className={classes.inputNumber} onChange={(number) => setNumber(number)} max={toEnglishDigit(product.supply)} />
+                    <InputNumber className={classes.inputNumber} onChange={(number) => setNumber(number)} max={product.supply} />
 
                     <ConfirmModal onClick={addToBuyList} />
 
@@ -209,7 +208,7 @@ function ProductDetailsss(props) {
                   </Typography>
 
                   <div className={classes.buttonContainer} >
-                    <InputNumber disabled className={classes.inputNumber} onChange={(number) => setNumber(number)} max={toEnglishDigit(product.supply)} />
+                    <InputNumber disabled className={classes.inputNumber} onChange={(number) => setNumber(number)} max={product.supply} />
                     <Button disabled variant='contained' color="secondary" onClick={addToBuyList} >
                       افزودن به سبد خرید
                     </Button>

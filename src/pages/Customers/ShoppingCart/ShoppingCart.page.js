@@ -14,7 +14,6 @@ import { TableContainer } from '../../../components/index.components'
 import { Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import DeleteOrder from './DeleteOrder.component'
-import { toEnglishDigit } from '../../../utils/convertNumber';
 import { BASE_URL } from '../../../api/Variables.api';
 
 const StyledTableCell = withStyles((theme) => ({
@@ -131,7 +130,7 @@ function Cart(props) {
   const sumCart = () => {
     let sumPrice = 0
     state.data.map(item => {
-      const price = toEnglishDigit(item.productPrice)
+      const price = item.productPrice
       const count = item.number
 
       const sum = count * price
